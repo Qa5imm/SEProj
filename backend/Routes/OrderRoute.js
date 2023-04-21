@@ -208,7 +208,7 @@ router.post("/checkout", jwtAuth, async (req, res) => {
   try {
     console.log(req.body, "checkout req");
     let last_order = await Order.find({});
-    last_order = last_order[last_order.length - 1];
+    last_order = last_order[last_order.length - 1] ?  last_order[last_order.length - 1] : 0
     console.log(last_order);
     // // .limit(1)[0];
 
