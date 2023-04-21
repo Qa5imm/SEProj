@@ -1,10 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import "./TrackOrder.css";
-import { socket } from "../../socket/socketio";
-import BASE_URL from "../../Route/Route";
-import { myHeaderGet, myHeaderPost } from "../../config/headers";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './TrackOrder.css';
+import { socket } from '../../socket/socketio';
+import BASE_URL from '../../Route/Route';
+import { myHeaderGet, myHeaderPost } from '../../config/headers';
 
 // estabishing connection with user
 
@@ -33,10 +33,10 @@ const TrackOrder = () => {
     axios
       .post(`${BASE_URL}/api/orders/status`, myData, myHeaderPost)
       .then((data) => {
-        if (data.data.status === "Delivered") {
+        if (data.data.status === 'Delivered') {
           setOnway(true);
           setDelivered(true);
-        } else if (data.data.status === "Picked") {
+        } else if (data.data.status === 'Picked') {
           setOnway(true);
         }
         setLoading(false);
@@ -44,29 +44,34 @@ const TrackOrder = () => {
       });
     // making a new connection with socket
     const myBody = {
-      userId: localStorage.getItem("auth_token"),
+      userId: localStorage.getItem('auth_token'),
     };
-    socket.emit("newUser", myBody);
+    socket.emit('newUser', myBody);
   }, []);
-  socket.on("track", (data) => {
-    if (data.status === "Delivered") {
+  socket.on('track', (data) => {
+    if (data.status === 'Delivered') {
       setOnway(true);
       setDelivered(true);
-    } else if (data.status === "Picked") {
+    } else if (data.status === 'Picked') {
       setOnway(true);
     }
-    socket.off("track");
+    socket.off('track');
+  });
+
+  useEffect(() => {
+    console.log('this is the onway state', onway);
+    console.log('this is the delivered state', delivered);
   });
 
   const handleReportRiderClick = async (e) => {
-    console.log("Inside handleReportRiderClick");
-    e.target.innerText = "Reported";
+    console.log('Inside handleReportRiderClick');
+    e.target.innerText = 'Reported';
     if (reported) {
       const reportRider = {
         riderID: location.state.rider_id,
         orderID: location.state.order_id,
       };
-      console.log("Report: ", reportRider);
+      console.log('Report: ', reportRider);
       try {
         const res = await axios.post(
           `${BASE_URL}/api/reportrider`,
@@ -79,7 +84,7 @@ const TrackOrder = () => {
         console.error(error);
       }
     } else {
-      console.log("USER HAS ALREADY REPORTED THE RIDER");
+      console.log('USER HAS ALREADY REPORTED THE RIDER');
     }
   };
   function handleContactDetailsClick() {
@@ -92,15 +97,15 @@ const TrackOrder = () => {
         <div className="layer">
           <div className="title">Order Number: {location.state.order_id}</div>
           <div className="circles">
-            <div className={`circle1${process ? "_mustard" : ""}`}>
+            <div className={`circle1${process ? '_mustard' : ''}`}>
               <div className="number1">1</div>
             </div>
-            <div className={`line1${onway ? "_mustard" : ""}`}></div>
-            <div className={`circle2${onway ? "_mustard" : ""}`}>
+            <div className={`line1${onway ? '_mustard' : ''}`}></div>
+            <div className={`circle2${onway ? '_mustard' : ''}`}>
               <div className="number1">2</div>
             </div>
-            <div className={`line2${delivered ? "_mustard" : ""}`}></div>
-            <div className={`circle3${delivered ? "_mustard" : ""}`}>
+            <div className={`line2${delivered ? '_mustard' : ''}`}></div>
+            <div className={`circle3${delivered ? '_mustard' : ''}`}>
               <div className="number1">3</div>
             </div>
           </div>
@@ -129,13 +134,13 @@ const TrackOrder = () => {
                 <button
                   className="close"
                   onClick={() => setshowPopup(false)}
-                  style={{ marginRight: "130px" }}
+                  style={{ marginRight: '130px' }}
                 >
                   x
                 </button>
                 <div
                   className="rider-details"
-                  style={{ paddingTop: "2%", textAlign: "center" }}
+                  style={{ paddingTop: '2%', textAlign: 'center' }}
                 >
                   <h3>Rider details</h3>
                   <p>Name: {location.state.rider_name}</p>

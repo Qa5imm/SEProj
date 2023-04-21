@@ -140,7 +140,7 @@ const PendingOrders = () => {
             </div>
             <div className="po_encase_button">
               <button className="po_button2" onClick={() => handleClick()}>
-                Go to My orders
+                Go to Delivery orders
               </button>
             </div>
           </div>

@@ -59,9 +59,11 @@ const Cart = () => {
   return (
     <div>
       {cartItems.length === 0 ? (
-        <p className="empty-cart" style={{ color: 'white' }}>
-          Your cart is empty
-        </p>
+        <div className="div-empty-cart">
+          <p className="empty-cart" style={{ color: 'black' }}>
+            Your cart is empty
+          </p>
+        </div>
       ) : (
         <>
           <div
@@ -75,23 +77,23 @@ const Cart = () => {
             Ordering from : {cartItems[0].eatery}
           </div>
           <div className="progress-tracker">
-            <div className="circles">
-              <div className={`circle1`}>
-                <div className="number1">1</div>
+            <div className="c_circles">
+              <div className={`c_circle1`}>
+                <div className="c_number1">1</div>
               </div>
-              <div className={`line1`}></div>
-              <div className={`circle2`}>
-                <div className="number1">2</div>
+              <div className={`c_line1`}></div>
+              <div className={`c_circle2`}>
+                <div className="c_number1">2</div>
               </div>
-              <div className={`line2`}></div>
-              <div className={`circle3`}>
-                <div className="number1">3</div>
+              <div className={`c_line2`}></div>
+              <div className={`c_circle3`}>
+                <div className="c_number1">3</div>
               </div>
             </div>
-            <div className="labels">
-              <div className="label1">Menu</div>
-              <div className="label2">Cart</div>
-              <div className="label3">Checkout</div>
+            <div className="c_labels">
+              <div className="c_label1">Menu</div>
+              <div className="c_label2">Cart</div>
+              <div className="c_label3">Checkout</div>
             </div>
           </div>
           <div className="cart-deets">
