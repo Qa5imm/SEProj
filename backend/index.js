@@ -8,7 +8,7 @@ const { Server } = require("socket.io");
 const { findOne } = require("./models/Order");
 const Order = require("./models/Order");
 const JWT_SECRET = require("./secrets/JWTsecret");
-const jwt= require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 m_db();
 
@@ -30,6 +30,7 @@ app.use("/api", require("./Routes/EateriesRoute"));
 app.use("/api/orders", require("./Routes/OrderRoute"));
 app.use("/api/complaint", require("./Routes/ComplaintRoute"));
 app.use("/api", require("./Routes/ReportRider"));
+app.use("/api/reviews", require("./Routes/ReviewRoute"));
 
 // socket setup
 let userMap = {};

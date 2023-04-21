@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import MenuItems from "../../components/MenuItems/MenuItems";
-import './Menu.css';
+import "./Menu.css";
+import Menu from "./Menu";
 
 // const [disperror, setdisperror] = useState("");
 
@@ -55,16 +56,7 @@ const Fusion = () => {
 
   console.log(menuItems);
 
-  return (
-    <div className="image-background">
-      <h2 style={{ color: "white", marginBottom: "12px" }}>Fusion Cafe</h2>
-      <div className="eatery-container">
-        {menuItems.map((item) => (
-          <MenuItems {...item} />
-        ))}
-      </div>
-    </div>
-  );
+  return <Menu name={"Fusion Cafe"} menuItems={menuItems} />;
 };
 
 export default Fusion;

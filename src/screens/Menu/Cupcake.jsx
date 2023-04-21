@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MenuItems from "../../components/MenuItems/MenuItems";
-import './Menu.css';
+import "./Menu.css";
+import Menu from "./Menu";
 
 const Cupcake = () => {
   const eateryId = window.location.pathname.split(":")[1];
@@ -23,16 +24,7 @@ const Cupcake = () => {
     item.eateryId = eateryId;
     item.eatery = "cupcake";
   });
-  return (
-    <div className="image-background">
-      <h3 style={{ color: "white", marginBottom: "12px" }}>Cupcake Lounge</h3>
-      <div className="eatery-container">
-        {menuItems.map((item) => (
-          <MenuItems {...item} />
-        ))}
-      </div>
-    </div>
-  );
+  return <Menu name={"Cupcake Lounge"} menuItems={menuItems} />;
 };
 
 export default Cupcake;

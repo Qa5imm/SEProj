@@ -1,7 +1,8 @@
 import axios from "axios";
 const cheerio = require("cheerio");
 
-const m_db = async () => {
+const fetchMenu = async () => {
+  console.log("ffetch");
   const updatedMenu = [];
   let items = [];
   let menu = [];
@@ -90,4 +91,4 @@ const m_db = async () => {
     });
 };
 
-export default m_db;
+export default fetchMenu;

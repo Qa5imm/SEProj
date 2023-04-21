@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import BASE_URL from "../../Route/Route";
 import MenuItems from "../../components/MenuItems/MenuItems";
-import './Menu.css';
-
+import "./Menu.css";
+import Menu from "./Menu";
 
 const Pdc = () => {
   const eateryId = window.location.pathname.split(":")[1];
@@ -27,16 +27,7 @@ const Pdc = () => {
     fetchMenuItems();
   }, []);
 
-  return (
-    <div className="image-background">
-      <h2 style={{ color: "white", marginBottom: "12px" }}>PDC Menu</h2>
-      <div className="eatery-container">
-        {menuItems.map((item) => (
-          <MenuItems {...item} />
-        ))}
-      </div>
-    </div>
-  );
+  return <Menu name={"PDC"} menuItems={menuItems} />;
 };
 
 export default Pdc;

@@ -19,7 +19,11 @@ import Cart from "./components/Cart/Cart";
 import { Address } from "./screens/Address/Address";
 import AdminLogin from "./screens/AdminView/AdminLogin";
 import { ViewOrders } from "./screens/AdminView/ViewOrders";
+import Reviews from "./screens/Reviews/Reviews";
+import fetchMenu from './screens/Menu/FetchPdc'
+
 const { Outlet } = require("react-router-dom");
+fetchMenu()
 
 const Protectedroutes = () => {
   console.log(localStorage.getItem("auth_token"));
@@ -59,6 +63,7 @@ function App() {
             <Route exact path="/usrorders" element={<UserOrders />} />
             <Route exact path="/trackorder" element={<TrackOrder />} />
             <Route exact path="/adminhome" element={<ViewOrders />} />
+            <Route path="/reviews" element={<Reviews />} />
           </Route>
         </Routes>
       </Router>
