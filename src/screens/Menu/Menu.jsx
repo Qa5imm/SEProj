@@ -4,6 +4,7 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { useNavigate } from "react-router-dom";
 
 const Menu = (props) => {
+  console.log("menu", props.menuItems)
   const navigate = useNavigate();
   const handleClick = () => {
     const data = {

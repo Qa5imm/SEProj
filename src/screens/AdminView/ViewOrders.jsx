@@ -28,6 +28,7 @@ export const ViewOrders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+  // console.log("item ", Orders[0])
 
   return (
     <div>

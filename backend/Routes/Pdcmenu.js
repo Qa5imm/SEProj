@@ -115,14 +115,15 @@ const m_db = async () => {
   });
 };
 
+
 router.get("/pdcmenu", async (req, res) => {
   try {
-    let menu = await m_db(); // Wait for the Promise to resolve before assigning the value to menu
-    let uniqueItems = menu.filter(
-      (item, index, self) =>
-        index === self.findIndex((t) => t.name === item.name)
-    );
-    res.json(uniqueItems);
+    // let menu = await m_db(); // Wait for the Promise to resolve before assigning the value to menu
+    // let uniqueItems = menu.filter(
+    //   (item, index, self) =>
+    //     index === self.findIndex((t) => t.name === item.name)
+    // );
+    res.json([]);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

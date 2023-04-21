@@ -1,18 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/User');
-const { body, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = require('../secrets/JWTsecret.js');
+const User = require("../models/User");
+const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const Eateries = require("../models/Eateries");
+const JWT_SECRET = require("../secrets/JWTsecret.js");
 
 router.post(
-  '/createuser',
+  "/createuser",
   [
     //  validating user details
-    body('name', 'name must minimum 3 characters').isLength({ min: 3 }),
-    body('email', 'Enter a valid email').isEmail(),
-    body('password', 'password must be minimum 6 characters').isLength({
+    body("name", "name must minimum 3 characters").isLength({ min: 3 }),
+    body("email", "Enter a valid email").isEmail(),
+    body("password", "password must be minimum 6 characters").isLength({
       min: 6,
     }),
   ],
@@ -29,11 +30,11 @@ router.post(
     if (existingUser?.banned === 1) {
       return result
         .status(400)
-        .json({ errors: [{ msg: 'You can no longer use the platform' }] });
+        .json({ errors: [{ msg: "You can no longer use the platform" }] });
     } else if (existingUser) {
       return result
         .status(400)
-        .json({ errors: [{ msg: 'User already exists' }] });
+        .json({ errors: [{ msg: "User already exists" }] });
     }
 
     // hashing the password
@@ -59,19 +60,19 @@ router.post(
   }
 );
 
-router.post('/loginuser', async (req, result) => {
+router.post("/loginuser", async (req, result) => {
   let id = req.body.id;
   try {
     let user = await User.findOne({ id });
     if (!user) {
       return result
         .status(400)
-        .json({ errors: [{ msg: 'Invalid Username or Password' }] });
+        .json({ errors: [{ msg: "Invalid Username or Password" }] });
     } // checking if the user is banned or not
     else if (user?.banned === 1) {
       return result
         .status(400)
-        .json({ errors: [{ msg: 'You can no longer use the platform' }] });
+        .json({ errors: [{ msg: "You can no longer use the platform" }] });
     } else {
       // comparing hashes
       bcrypt.compare(
@@ -85,7 +86,7 @@ router.post('/loginuser', async (req, result) => {
           if (!checkRes) {
             return result
               .status(400)
-              .json({ errors: [{ msg: 'Invalid Username or Password' }] });
+              .json({ errors: [{ msg: "Invalid Username or Password" }] });
           }
 
           // in case the hash matches
@@ -110,6 +111,30 @@ router.post('/loginuser', async (req, result) => {
   } catch (error) {
     throw error;
   }
+});
+
+router.post("/adminlogin", async (req, result) => {
+  let eateries = await Eateries.find({});
+
+  let matchedEatery;
+  eateries.forEach((element) => {
+    console.log(element.admin_username, element.admin_password);
+    if (
+      element.admin_username === req.body.username &&
+      element.admin_password === req.body.password
+    ) {
+      matchedEatery = element;
+    }
+  });
+
+  if (matchedEatery) {
+    console.log("found");
+    const name = matchedEatery.name;
+    const eatery_id = matchedEatery.eatery_id;
+    console.log(name, eatery_id, "here");
+    return result.json({ success: true, eat_name: name, eat_id: eatery_id });
+  }
+  return result.json({ success: false });
 });
 
 module.exports = router;
