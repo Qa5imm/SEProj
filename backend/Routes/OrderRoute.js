@@ -207,20 +207,24 @@ router.post("/checkout", jwtAuth, async (req, res) => {
 
   try {
     console.log(req.body, "checkout req");
-    let last_order = await Order.find({});
-    last_order = last_order[last_order.length - 1] ?  last_order[last_order.length - 1] : 0
-    console.log(last_order);
-    // // .limit(1)[0];
+    // let last_order = await Order.find({});
+    const last_order = await Order.findOne().sort({ order_id: -1 }).limit(1);
+    const neworderId = last_order ? last_order?.order_id + 1 : 1;
 
-    const order_id1 = Number(last_order.order_id) + 1;
-    console.log(order_id1);
-    console.log(req.body.eatery_id);
-    console.log(req.body.total);
-    console.log(req.body.droplocation);
-    console.log(req.body.paymentmethod);
+    // last_order = last_order[last_order.length - 1] ?  last_order[last_order.length - 1] : 0
+
+    // console.log(last_order);
+    // // .limit(1)[0];
+    // const order_id1 = Number(last_order.order_id) + 1;
+
+    console.log( "orderId", neworderId);
+    console.log( req.body.eatery_id);
+    console.log( req.body.total);
+    console.log( req.body.droplocation);
+    console.log( req.body.paymentmethod);
 
     Order.create({
-      order_id: Number(order_id1),
+      order_id: neworderId,
       eatery_id: req.body.eatery_id,
       student_id: req.id,
       totalprice: req.body.total,
@@ -231,7 +235,7 @@ router.post("/checkout", jwtAuth, async (req, res) => {
 
     req.body.items.forEach((element) => {
       OrderItems.create({
-        order_id: Number(order_id1),
+        order_id: neworderId,
         item: element.item,
         price: element.price,
         quantity: element.quantity,
