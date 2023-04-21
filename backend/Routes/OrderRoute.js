@@ -96,6 +96,9 @@ router.get("/usr", jwtAuth, async (req, res) => {
             id: userId,
           },
         },
+        orderstatus: {
+          $ne: "Delivered",
+        },
       },
     },
     {
@@ -169,6 +172,9 @@ router.get("/rider", jwtAuth, async (req, res) => {
             id: riderId,
           },
         },
+        orderstatus: {
+          $ne: "Delivered",
+        },
       },
     },
     {
@@ -217,11 +223,11 @@ router.post("/checkout", jwtAuth, async (req, res) => {
     // // .limit(1)[0];
     // const order_id1 = Number(last_order.order_id) + 1;
 
-    console.log( "orderId", neworderId);
-    console.log( req.body.eatery_id);
-    console.log( req.body.total);
-    console.log( req.body.droplocation);
-    console.log( req.body.paymentmethod);
+    console.log("orderId", neworderId);
+    console.log(req.body.eatery_id);
+    console.log(req.body.total);
+    console.log(req.body.droplocation);
+    console.log(req.body.paymentmethod);
 
     Order.create({
       order_id: neworderId,
@@ -229,7 +235,7 @@ router.post("/checkout", jwtAuth, async (req, res) => {
       student_id: req.id,
       totalprice: req.body.total,
       droplocation: req.body.droplocation,
-      orderstatus:"",
+      orderstatus: "",
       paymentmethod: "COD",
     });
 

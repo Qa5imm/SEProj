@@ -9,7 +9,7 @@ const Menu = (props) => {
   const handleClick = () => {
     const data = {
       state: {
-        eatery_id: props.menuItems[0].eateryId,
+        eatery_id: props.menuItems[0]?.eateryId,
       },
     };
     navigate("/reviews", data);
