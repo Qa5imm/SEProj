@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import BASE_URL from "../../Route/Route";
 import "./SearchReviews.css";
 import RatingStars from "../RatingStars/RatingStars";
 
 function SearchBar(props) {
-  const BASE_URL = "http://localhost:3001";
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);

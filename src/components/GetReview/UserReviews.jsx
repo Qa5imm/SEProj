@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import RatingStars from "../RatingStars/RatingStars";
+import BASE_URL from "../../Route/Route";
 import "./UserReviews.css";
 
 const DisplayReviews = (props) => {
   const [reviews, setReviews] = useState([]);
-  const BASE_URL = "http://localhost:3001";
 
   useEffect(() => {
     const fetchData = async () => {

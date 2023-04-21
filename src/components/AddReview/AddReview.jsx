@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./AddReview.css";
 import { myHeaderPost } from "../../config/headers";
+import BASE_URL from '../../Route/Route'
 
 function getSubstring(str, start, end) {
   const startIndex = str.indexOf(start) + start.length;
@@ -15,7 +16,7 @@ function AddReview(props) {
   const path = location.pathname;
   // const eateryName = getSubstring(path, '/', 'reviews')
   const [showAddReview, setShowReviewForm] = useState(false);
-  const BASE_URL = "http://localhost:3001";
+  // const BASE_URL = "http://localhost:3001";
   const [errors, setErrors] = useState({});
 
   const [reviewFormData, setReviewData] = useState({
