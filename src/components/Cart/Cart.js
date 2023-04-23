@@ -1,23 +1,31 @@
-import { useSelector } from 'react-redux';
-import './Cart.css';
-import BASE_URL from '../../Route/Route';
-import axios from 'axios';
-import { myHeaderPost } from '../../config/headers';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import "./Cart.css";
+import BASE_URL from "../../Route/Route";
+import axios from "axios";
+import { myHeaderPost } from "../../config/headers";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const dispatch = useDispatch();
 
+  const clearCart = () => {
+    const cartState = localStorage.getItem("cartState");
+    if (cartState) {
+      localStorage.removeItem("cartState");
+      dispatch({ type: "CLEAR_CART" });
+    }
+  };
   const handleCheckout = async () => {
     // MAKE SURE TO CHANGE THE EATERYID TO NUM
     let total = 0;
     let eatery_id = parseInt(cartItems[0].eateryId);
     let items = [];
     // NOT SET YET
-    let droplocation = '';
-    let paymentmethod = 'COD';
-    let orderstatus = '';
+    let droplocation = "";
+    let paymentmethod = "COD";
+    let orderstatus = "";
 
     cartItems.forEach((item) => {
       total += item.price;
@@ -42,12 +50,12 @@ const Cart = () => {
     };
 
     navigate(
-      '/address',
+      "/address",
       { state: { data, myHeaderPost } },
       {
         onBeforeNavigate: () => {
           setTimeout(() => {
-            console.log('navigating to address', data, myHeaderPost);
+            console.log("navigating to address", data, myHeaderPost);
           }, 0);
         },
       }
@@ -60,18 +68,27 @@ const Cart = () => {
     <div>
       {cartItems.length === 0 ? (
         <div className="div-empty-cart">
-          <p className="empty-cart" style={{ color: 'black' }}>
+          <p className="empty-cart" style={{ color: "black" }}>
             Your cart is empty
           </p>
         </div>
       ) : (
         <>
+          <div className="">
+            <button
+              className="button-cartscreen"
+              onClick={clearCart}
+              style={{ marginTop: "16px", marginBottom: "0" }}
+            >
+              <div className="button-deets">Clear Cart</div>
+            </button>
+          </div>
           <div
             className="order-from"
             style={{
-              marginBottom: '12px',
-              fontWeight: 'bold',
-              fontSize: '24px',
+              marginBottom: "12px",
+              fontWeight: "bold",
+              fontSize: "24px",
             }}
           >
             Ordering from : {cartItems[0].eatery}
@@ -122,7 +139,7 @@ const Cart = () => {
             <button
               className="button-cartscreen"
               onClick={handleCheckout}
-              style={{ marginTop: '16px' }}
+              style={{ marginTop: "16px" }}
             >
               <div className="button-deets">Checkout</div>
             </button>
