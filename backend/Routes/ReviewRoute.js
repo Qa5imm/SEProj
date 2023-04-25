@@ -20,13 +20,11 @@ router.get("/getreviews", async (req, res) => {
 router.get("/search", async (req, res) => {
   const eatery_id = req.query.eatery_id;
   const query = req.query.q;
-  console.log("Received Search Query For:", query);
   try {
     const results = await Reviews.find({
       eatery_id: eatery_id,
       review: { $regex: query, $options: "i" },
     });
-    console.log(results)
     res.json(results);
   } catch (error) {
     console.error(error);
@@ -40,10 +38,7 @@ router.post(
   jwtAuth,
   body("review", "must be minimum 1 character").isLength({ min: 2 }),
   async (req, result) => {
-    console.log("request", req.body);
-    console.log("userid", req.id);
     const errors = validationResult(req);
-    console.log(errors)
     if (!errors.isEmpty()) {
       return result.status(400).json({ errors: errors.array() });
     }
@@ -57,10 +52,8 @@ router.post(
         review: req.body.review,
         eatery_id: req.body.eatery_id,
       });
-      console.log("here")
       result.json({ success: true });
     } catch (error) {
-      console.log("error with write review.", error);
       result.json({ success: false });
     }
   }

@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import BASE_URL from "./Route";
-// import "./Address.css";
 import "./Admin.css"
-// import myHeaderPost
 
 export const ViewOrders = () => {
   const [Orders, setOrders] = useState([]);
@@ -28,10 +26,10 @@ export const ViewOrders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
-  // console.log("item ", Orders[0])
 
   return (
     <div>
+      <h1 style={{"color":"white"}}>{localStorage.getItem("name")}</h1>
       {Orders.map((item) => (
         <div key={item._id} className="order-box">
           <p>name: {item.item}</p>

@@ -28,7 +28,6 @@ app.use("/", require("./Routes/Pdcmenu"));
 app.use("/api", require("./Routes/UserRoute"));
 app.use("/api", require("./Routes/EateriesRoute"));
 app.use("/api/orders", require("./Routes/OrderRoute"));
-app.use("/api/complaint", require("./Routes/ComplaintRoute"));
 app.use("/api", require("./Routes/ReportRider"));
 app.use("/api/reviews", require("./Routes/ReviewRoute"));
 

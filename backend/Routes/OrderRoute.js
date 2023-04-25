@@ -1,10 +1,7 @@
 const router = require("express").Router();
 const Order = require("../models/Order");
 const OrderItems = require("../models/Orderitems");
-const { body, validationResult } = require("express-validator");
-const User = require("../models/User");
 const jwtAuth = require("../middlewares/jwtAuth");
-const { Socket } = require("socket.io");
 
 // to fetch all the pending orders
 router.get("/all", async (req, res) => {
@@ -48,7 +45,6 @@ router.get("/all", async (req, res) => {
     if (err) {
       console.error(err);
     } else {
-      // console.log(orders);
       res.send(orders);
     }
   });
@@ -105,9 +101,6 @@ router.get("/usr", jwtAuth, async (req, res) => {
       $project: {
         order_id: 1,
         items: 1,
-        // "student_details.name": 1,
-        // "student_details.contact": 1,
-        // "student_details.id": 1,
         "rider_details.name": 1,
         "rider_details.contact": 1,
         "rider_details.id": 1,
@@ -123,7 +116,6 @@ router.get("/usr", jwtAuth, async (req, res) => {
     if (err) {
       console.error(err);
     } else {
-      // console.log(orders);
       res.send(orders);
     }
   });
@@ -184,8 +176,6 @@ router.get("/rider", jwtAuth, async (req, res) => {
         "student_details.name": 1,
         "student_details.contact": 1,
         "student_details.id": 1,
-        // "rider_details.name": 1,
-        // "rider_details.contact": 1,
         "rider_details.id": 1,
         "eatery_details.name": 1,
         student_id: 1,
@@ -199,7 +189,6 @@ router.get("/rider", jwtAuth, async (req, res) => {
     if (err) {
       console.error(err);
     } else {
-      // console.log(orders);
       res.send(orders);
     }
   });
@@ -207,27 +196,9 @@ router.get("/rider", jwtAuth, async (req, res) => {
 
 // to process the checkout
 router.post("/checkout", jwtAuth, async (req, res) => {
-  console.log("student_id ", req.id);
-  console.log("body ", req.body);
-  // res
-
   try {
-    console.log(req.body, "checkout req");
-    // let last_order = await Order.find({});
     const last_order = await Order.findOne().sort({ order_id: -1 }).limit(1);
     const neworderId = last_order ? last_order?.order_id + 1 : 1;
-
-    // last_order = last_order[last_order.length - 1] ?  last_order[last_order.length - 1] : 0
-
-    // console.log(last_order);
-    // // .limit(1)[0];
-    // const order_id1 = Number(last_order.order_id) + 1;
-
-    console.log("orderId", neworderId);
-    console.log(req.body.eatery_id);
-    console.log(req.body.total);
-    console.log(req.body.droplocation);
-    console.log(req.body.paymentmethod);
 
     Order.create({
       order_id: neworderId,
@@ -248,7 +219,6 @@ router.post("/checkout", jwtAuth, async (req, res) => {
       });
     });
 
-    console.log("Sending");
     res.json({ success: true });
   } catch (err) {
     console.error(err.message);
@@ -272,16 +242,16 @@ router.post("/accept", jwtAuth, async (req, res) => {
 // for admin to check all the orders
 router.get("/eat_orders/:eat_id", async (req, res) => {
   try {
-    console.log(req.params.eat_id, "id");
-
-    const orders = await Order.find({ eatery_id: req.params.eat_id });
+    // finding all the orders of a eatery in which orderstatus is either empty or Accepted by a rider
+    const orders = await Order.find({
+      eatery_id: req.params.eat_id,
+      orderstatus: { $in: ["", "Accepted"] },
+    });
     const orderIds = orders.map((order) => order.order_id);
     const orderitems = await OrderItems.find({});
     const filteredOrderitems = orderitems.filter((orderitem) =>
       orderIds.includes(orderitem.order_id)
     );
-
-    console.log(filteredOrderitems);
 
     res.json(filteredOrderitems);
   } catch (err) {
@@ -292,11 +262,9 @@ router.get("/eat_orders/:eat_id", async (req, res) => {
 
 // to check the status of the order
 router.post("/status", jwtAuth, async (req, res) => {
-  console.log("here");
   let query = { order_id: req.body.order_id };
   const result = await Order.findOne(query);
   if (result) {
-    console.log(result);
     res.send({ status: result?.orderstatus });
   }
 });

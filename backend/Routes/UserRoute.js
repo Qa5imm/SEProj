@@ -118,7 +118,6 @@ router.post("/adminlogin", async (req, result) => {
 
   let matchedEatery;
   eateries.forEach((element) => {
-    console.log(element.admin_username, element.admin_password);
     if (
       element.admin_username === req.body.username &&
       element.admin_password === req.body.password
@@ -128,10 +127,8 @@ router.post("/adminlogin", async (req, result) => {
   });
 
   if (matchedEatery) {
-    console.log("found");
     const name = matchedEatery.name;
     const eatery_id = matchedEatery.eatery_id;
-    console.log(name, eatery_id, "here");
     return result.json({ success: true, eat_name: name, eat_id: eatery_id });
   }
   return result.json({ success: false });

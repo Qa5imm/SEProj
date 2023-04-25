@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../secrets/JWTsecret.js");
 
 router.post("/eateryadd", async (req, result) => {
-  console.log(req.body, "hi");
   // inserting new user
   try {
     const user = await Eateries.create({
